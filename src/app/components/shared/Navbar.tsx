@@ -4,7 +4,7 @@ import logo from '@/assets/logo.png'
 
 const Navbar = () => {
     return (
-        <section className="bg-[#0C0D10]">
+        <section className="border-b border-gray-700 bg-[#0C0D10]">
             <div className="container mx-auto p-5 flex items-center justify-between">
 
                 {/* Logo + Name */}
