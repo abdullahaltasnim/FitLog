@@ -15,7 +15,7 @@ const Navbar = () => {
 
                 {/* Navigation */}
                 <div>
-                    <ul className="flex items-center justify-center gap-8 text-2xl">
+                    <ul className="flex items-center justify-center gap-8">
                         <li>Workouts</li>
                         <li>My Plan</li>
                     </ul>

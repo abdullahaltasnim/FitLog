@@ -1,10 +1,14 @@
 import React from 'react';
-import Navbar from './components/shared/Navbar';
+import Banner from './components/homepage/Banner';
+import Gympage from './components/homepage/Gympage';
+
 
 const page = () => {
   return (
     <div>
-            Home Page
+      <Banner />
+      <Gympage/>
+          
     </div>
   );
 };
