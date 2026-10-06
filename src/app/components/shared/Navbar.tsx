@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import logo from '@/assets/logo.png'
+import Link from 'next/link';
 
 const Navbar = () => {
     return (
@@ -16,8 +17,8 @@ const Navbar = () => {
                 {/* Navigation */}
                 <div>
                     <ul className="flex items-center justify-center gap-8">
-                        <li>Workouts</li>
-                        <li>My Plan</li>
+                        <Link href="/">Workouts</Link>
+                        <Link href="/">My Plan</Link>
                     </ul>
                 </div>
 
