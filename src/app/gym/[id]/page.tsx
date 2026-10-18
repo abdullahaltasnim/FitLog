@@ -1,6 +1,8 @@
 import { IGym } from "@/types/gym.type";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import AddButton from "@/app/components/gymDetails/AddButton";
+import SaveButton from "@/app/components/gymDetails/SaveButton";
 
 interface IPageProps {
   params: Promise<{
@@ -9,9 +11,7 @@ interface IPageProps {
 }
 
 const getGymPage = async (): Promise<IGym[]> => {
-  const response = await fetch(
-    "https://api.abcz.workers.dev/api/fitlog"
-  );
+  const response = await fetch("https://api.abcz.workers.dev/api/fitlog");
 
   if (!response.ok) {
     throw new Error("Failed to fetch gym data");
@@ -27,9 +27,7 @@ const Page = async ({ params }: IPageProps) => {
 
   const gymData = await getGymPage();
 
-  const gym = gymData.find(
-    (item) => item.id === Number(id)
-  );
+  const gym = gymData.find((item) => item.id === Number(id));
 
   if (!gym) {
     notFound();
@@ -39,7 +37,6 @@ const Page = async ({ params }: IPageProps) => {
     <main className="min-h-screen bg-[#101116] text-white">
       <div className="container mx-auto px-5 py-[70px]">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
-
           {/* LEFT SIDE - IMAGE */}
           <div className="relative h-[500px] w-full overflow-hidden rounded-[14px] lg:h-[610px]">
             <Image
@@ -77,7 +74,6 @@ const Page = async ({ params }: IPageProps) => {
 
             {/* Details Table */}
             <div className="mt-7 overflow-hidden rounded-[16px] border border-[#292d36] bg-[#171a21]">
-
               {/* Equipment */}
               <div className="flex items-center justify-between border-b border-[#292d36] px-5 py-4">
                 <span className="text-[18px] font-bold uppercase tracking-wide text-[#8d929d]">
@@ -168,9 +164,7 @@ const Page = async ({ params }: IPageProps) => {
                     key={index}
                     className="flex gap-3 text-[18px] leading-5 text-[#adb1ba]"
                   >
-                    <span className="min-w-[18px]">
-                      {index + 1}.
-                    </span>
+                    <span className="min-w-[18px]">{index + 1}.</span>
 
                     <span>{instruction}</span>
                   </li>
@@ -179,86 +173,10 @@ const Page = async ({ params }: IPageProps) => {
             </div>
 
             {/* Buttons */}
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="my-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <AddButton gym={gym} />
 
-              {/* Add To Plan */}
-              <button className="flex items-center gap-2 rounded-[10px] bg-[#c6ff00] px-6 py-3 text-[18px] font-bold text-black transition hover:bg-[#b5eb00]">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect
-                    x="4"
-                    y="5"
-                    width="16"
-                    height="15"
-                    rx="2"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-
-                  <path
-                    d="M8 3V7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-
-                  <path
-                    d="M16 3V7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-
-                  <path
-                    d="M4 10H20"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  />
-
-                  <path
-                    d="M12 13V17"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-
-                  <path
-                    d="M10 15H14"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-
-                Add to today's plan
-              </button>
-
-              {/* Save Button */}
-              <button className="flex items-center gap-2 rounded-[10px] border border-[#343945] bg-transparent px-6 py-3 text-[13px] font-medium text-[#d1d4db] transition hover:bg-[#1a1d23]">
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 4C6 2.89543 6.89543 2 8 2H16C17.1046 2 18 2.89543 18 4V21L12 17L6 21V4Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-
-                Save for later
-              </button>
-
+              <SaveButton gym={gym} />
             </div>
           </div>
         </div>

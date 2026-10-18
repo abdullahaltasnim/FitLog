@@ -1,65 +1,27 @@
-// "use client";
+"use client"
 
-// import {
-//   createContext,
-//   ReactNode,
-//   useState,
-// } from "react";
+import React, { createContext, ReactNode, useState } from 'react';
 
-// type Gym = {
-//   id: number;
-//   name: string;
-// };
+// export const gymContext = createContext({});
 
-// type GymContextType = {
-//   readGym: Gym[];
-//   setReadGym: React.Dispatch<React.SetStateAction<Gym[]>>;
-//   wishlist: Gym[];
-//   setWishlist: React.Dispatch<React.SetStateAction<Gym[]>>;
-// };
-
-// export const GymContext = createContext<GymContextType | null>(null);
-
-// const GymProvider = ({ children }: { children: ReactNode }) => {
-//   const [readGym, setReadGym] = useState<Gym[]>([]);
-//   const [wishlist, setWishlist] = useState<Gym[]>([]);
-
-//   const sharedData = {
-//     readGym,
-//     setReadGym,
-//     wishlist,
-//     setWishlist,
-//   };
-
-//   return (
-//     <GymContext.Provider value={sharedData}>
-//       {children}
-//     </GymContext.Provider>
-//   );
-// };
-
-// export default GymProvider;
+export const GymContext = createContext({});
 
 
-
-
-import React, { createContext, useState } from 'react';
-
-
-const GymContext = createContext(null);
-
-const GymProvider = () => {
+const GymProvider = ({children}: { children: ReactNode }) => {
  const [addGym, setAddGym] = useState([]);
- const 
+ const [savedGym, setSavedGym] = useState([]);
 
+ const sharedData = {
+   addGym,
+   setAddGym,
+   savedGym,
+   setSavedGym,
+ };
+return <GymContext.Provider value={sharedData}>
+{children}
 
+</GymContext.Provider>
 
-const GymProvider = () => {
-  return (
-    <div>
-      
-    </div>
-  );
 };
 
 export default GymProvider;
