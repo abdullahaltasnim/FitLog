@@ -1,3 +1,4 @@
+
 import { IGym } from "@/types/gym.type";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -11,32 +12,45 @@ interface IPageProps {
 }
 
 const getGymPage = async (): Promise<IGym[]> => {
-  const response = await fetch("https://api.abcz.workers.dev/api/fitlog");
+  const response = await fetch(
+    "https://api.abcz.workers.dev/api/fitlog"
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch gym data");
   }
 
   const data: IGym[] = await response.json();
-
   return data;
 };
 
 const Page = async ({ params }: IPageProps) => {
   const { id } = await params;
-
   const gymData = await getGymPage();
 
-  const gym = gymData.find((item) => item.id === Number(id));
+  const gym = gymData.find(
+    (item) => item.id === Number(id)
+  );
 
   if (!gym) {
     notFound();
   }
 
+  // Handle instructions as a string or an array
+  const instructions: string[] = Array.isArray(
+    gym.instructions
+  )
+    ? gym.instructions
+    : gym.instructions
+        .split(/\r?\n/)
+        .map((instruction) => instruction.trim())
+        .filter(Boolean);
+
   return (
     <main className="min-h-screen bg-[#101116] text-white">
       <div className="container mx-auto px-5 py-[70px]">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
+
           {/* LEFT SIDE - IMAGE */}
           <div className="relative h-[500px] w-full overflow-hidden rounded-[14px] lg:h-[610px]">
             <Image
@@ -50,6 +64,7 @@ const Page = async ({ params }: IPageProps) => {
 
           {/* RIGHT SIDE */}
           <div>
+
             {/* Workout Name */}
             <h1 className="text-[36px] font-black uppercase leading-tight tracking-tight text-white">
               {gym.name}
@@ -74,12 +89,12 @@ const Page = async ({ params }: IPageProps) => {
 
             {/* Details Table */}
             <div className="mt-7 overflow-hidden rounded-[16px] border border-[#292d36] bg-[#171a21]">
+
               {/* Equipment */}
               <div className="flex items-center justify-between border-b border-[#292d36] px-5 py-4">
                 <span className="text-[18px] font-bold uppercase tracking-wide text-[#8d929d]">
                   Equipment
                 </span>
-
                 <span className="text-[18px] text-[#e2e3e7]">
                   {gym.equipment}
                 </span>
@@ -90,7 +105,6 @@ const Page = async ({ params }: IPageProps) => {
                 <span className="text-[18px] font-bold uppercase tracking-wide text-[#8d929d]">
                   Difficulty
                 </span>
-
                 <span className="text-[18px] text-[#e2e3e7]">
                   {gym.difficulty}
                 </span>
@@ -101,7 +115,6 @@ const Page = async ({ params }: IPageProps) => {
                 <span className="text-[18px] font-bold uppercase tracking-wide text-[#8d929d]">
                   Sets
                 </span>
-
                 <span className="text-[18px] text-[#e2e3e7]">
                   {gym.sets}
                 </span>
@@ -112,7 +125,6 @@ const Page = async ({ params }: IPageProps) => {
                 <span className="text-[18px] font-bold uppercase tracking-wide text-[#8d929d]">
                   Reps
                 </span>
-
                 <span className="text-[18px] text-[#e2e3e7]">
                   {gym.reps}
                 </span>
@@ -123,7 +135,6 @@ const Page = async ({ params }: IPageProps) => {
                 <span className="text-[18px] font-bold uppercase tracking-wide text-[#8d929d]">
                   Duration
                 </span>
-
                 <span className="text-[18px] text-[#e2e3e7]">
                   {gym.duration} min
                 </span>
@@ -134,7 +145,6 @@ const Page = async ({ params }: IPageProps) => {
                 <span className="text-[18px] font-bold uppercase tracking-wide text-[#8d929d]">
                   Calories
                 </span>
-
                 <span className="text-[18px] text-[#e2e3e7]">
                   {gym.caloriesBurned} kcal
                 </span>
@@ -145,7 +155,6 @@ const Page = async ({ params }: IPageProps) => {
                 <span className="text-[18px] font-bold uppercase tracking-wide text-[#8d929d]">
                   Rating
                 </span>
-
                 <span className="text-[18px] text-[#e2e3e7]">
                   {gym.rating}
                 </span>
@@ -159,13 +168,14 @@ const Page = async ({ params }: IPageProps) => {
               </h2>
 
               <ol className="mt-4 space-y-3">
-                {gym.instructions.map((instruction, index) => (
+                {instructions.map((instruction, index) => (
                   <li
                     key={index}
                     className="flex gap-3 text-[18px] leading-5 text-[#adb1ba]"
                   >
-                    <span className="min-w-[18px]">{index + 1}.</span>
-
+                    <span className="min-w-[18px]">
+                      {index + 1}.
+                    </span>
                     <span>{instruction}</span>
                   </li>
                 ))}
@@ -175,9 +185,9 @@ const Page = async ({ params }: IPageProps) => {
             {/* Buttons */}
             <div className="my-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <AddButton gym={gym} />
-
               <SaveButton gym={gym} />
             </div>
+
           </div>
         </div>
       </div>
